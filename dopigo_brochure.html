@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dopigo - Coffee & Bites #1 di Kaliabang Bekasi</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #fff8e7 0%, #ffe4c4 100%);
+        color: #4a3728;
+        line-height: 1.6;
+        /* PERBAIKAN 1: Smooth Scroll untuk Anchor Link */
+        scroll-behavior: smooth;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 40px 20px;
+      }
+
+      /* --- NAVBAR (Sticky) --- */
+      .navbar {
+        width: 100%;
+        position: sticky; /* Agar navbar selalu di atas */
+        height: 70px;
+        top: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-content {
+        max-width: 1200px;
+        height: 70px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+      }
+
+      .nav-logo-img {
+        height: 50px; /* Ukuran logo di navbar disesuaikan */
+        width: auto;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #8b4513;
+        font-weight: 600;
+        font-size: 1em;
+        padding: 5px 10px;
+        border-radius: 8px;
+        transition: background 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background: #ffe4c4;
+        color: #d2691e;
+      }
+
+      /* PERBAIKAN 4: Offset untuk Smooth Scroll Agar Konten Tidak Terhalang Navbar */
+      .section-target {
+        /* Nilai negatif margin-top harus sama dengan tinggi navbar (70px) */
+        margin-top: -70px;
+        /* Padding-top harus lebih besar dari tinggi navbar agar konten terlihat */
+        padding-top: 90px;
+      }
+
+      /* Target 'hero' tidak perlu offset, jadi di-reset */
+      #hero {
+        margin-top: 20px;
+        padding-top: 0;
+      }
+
+      /* --- HERO SECTION: Gambar Crossfade & Zoom --- */
+      .hero-section {
+        position: relative;
+        height: 600px;
+        border-radius: 30px;
+        overflow: hidden;
+        margin-bottom: 60px;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Image Slider Container */
+      .hero-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .hero-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        /* PERBAIKAN 2: Animasi Crossfade dan Zoom (Total 12s, 4s per slide) */
+        animation: crossFade 12s infinite, zoomEffect 12s infinite;
+        background-size: cover;
+        background-position: center;
+        /* Transisi untuk memastikan fade-in/out sangat mulus */
+        transition: opacity 1s ease-in-out;
+      }
+
+      /* URL Gambar yang lu pakai */
+      .hero-slide:nth-child(1) {
+        animation-delay: 0s;
+        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero3_wcfoxl.jpg");
+      }
+
+      .hero-slide:nth-child(2) {
+        /* Dimulai -4s agar crossfade mulus */
+        animation-delay: -4s;
+        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero1_kql9xk.jpg");
+      }
+
+      .hero-slide:nth-child(3) {
+        /* Dimulai -8s agar crossfade mulus */
+        animation-delay: -8s;
+        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero2_s4dc9a.jpg");
+      }
+
+      /* Keyframes untuk Crossfade (Smooth & No Jeda) */
+      @keyframes crossFade {
+        0% {
+          opacity: 1;
+        } /* Penuh di awal */
+        25% {
+          opacity: 1;
+        } /* Tahan opacity 1 selama 3 detik (25% dari 12s) */
+        33.33% {
+          opacity: 0;
+        } /* Fade out 1s */
+        66.66% {
+          opacity: 0;
+        } /* Tahan opacity 0 selama 4 detik */
+        75% {
+          opacity: 0;
+        } /* Fade in 1s */
+        100% {
+          opacity: 1;
+        } /* Penuh di akhir, siap looping */
+      }
+
+      /* Keyframes untuk Zoom (Ken Burns Effect) */
+      @keyframes zoomEffect {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Dark Overlay */
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.75),
+          rgba(139, 69, 19, 0.6)
+        );
+        z-index: 2;
+      }
+
+      /* Hero Content */
+      .hero-content {
+        position: relative;
+        z-index: 3;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 60px;
+      }
+
+      .hero-text {
+        flex: 1;
+        color: white;
+        max-width: 55%;
+        animation: fadeInLeft 1s ease-out;
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* PERBAIKAN 3: Title 1 Line */
+      .hero-title {
+        font-size: 4em;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 20px;
+        text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+        line-height: 1.1;
+        white-space: nowrap; /* WAJIB: Mencegah pemisahan baris */
+        overflow: hidden;
+      }
+
+      .hero-tagline {
+        font-size: 2em;
+        font-weight: 600;
+        color: #ffe4c4;
+        margin-bottom: 35px;
+        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      /* WhatsApp Order Button */
+      .order-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        background: linear-gradient(135deg, #ff9900 0%, #938005 100%);
+        color: white;
+        padding: 18px 35px;
+        font-size: 1.2em;
+        font-weight: 700;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(149, 76, 2, 0.4);
+        transition: all 0.3s ease;
+        animation: pulseButton 2s ease-in-out infinite;
+      }
+
+      @keyframes pulseButton {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .order-button:hover {
+        transform: translateY(-3px) scale(1.08);
+        box-shadow: 0 15px 40px rgba(205, 160, 1, 0.6);
+      }
+
+      .order-button svg {
+        width: 28px;
+        height: 28px;
+        fill: white;
+      }
+
+      /* Hero Mascot */
+      .hero-mascot {
+        width: 350px;
+        height: 350px;
+        object-fit: contain;
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+        animation: floatMascot 4s ease-in-out infinite, fadeInRight 1s ease-out;
+      }
+
+      @keyframes floatMascot {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-15px) rotate(-5deg);
+        }
+        75% {
+          transform: translateY(10px) rotate(5deg);
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Intro Section */
+      .intro {
+        text-align: center;
+        padding: 40px 20px;
+        margin-bottom: 60px;
+      }
+
+      .intro h2 {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #8b4513;
+        margin-bottom: 20px;
+      }
+
+      .intro p {
+        font-size: 1.2em;
+        color: #6b4423;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+      }
+
+      /* Products Section */
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        margin-bottom: 60px;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 25px;
+        padding: 40px 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 69, 19, 0.05) 0%,
+          rgba(210, 105, 30, 0.05) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .product-card:hover::before {
+        opacity: 1;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      }
+
+      .mascot-product {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+        animation: bounce 2s ease-in-out infinite;
+        z-index: 10;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(5deg);
+        }
+      }
+
+      .product-image {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card h3 {
+        font-size: 1.8em;
+        font-weight: 700;
+        color: #8b4513;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .flag {
+        font-size: 1.2em;
+      }
+
+      .product-card p {
+        font-size: 1.05em;
+        color: #6b4423;
+        line-height: 1.7;
+      }
+
+      /* Enhanced Why Section with 2 Column Grid */
+      .why-section {
+        background: linear-gradient(135deg, #d2691e 0%, #8b4513 100%);
+        border-radius: 30px;
+        padding: 60px 40px;
+        margin-bottom: 60px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      }
+
+      .why-section h2 {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .why-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .why-item {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .why-item:hover {
+        transform: translateY(-5px) scale(1.05);
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .why-item h3 {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #8b4513;
+        margin-bottom: 15px;
+      }
+
+      .why-item p {
+        font-size: 1.05em;
+        color: #6b4423;
+        line-height: 1.6;
+      }
+
+      /* CTA Section */
+      .cta {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        margin-bottom: 40px;
+      }
+
+      .cta h2 {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #8b4513;
+        margin-bottom: 30px;
+      }
+
+      .cta-info {
+        font-size: 1.3em;
+        color: #6b4423;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .cta-link {
+        color: #d2691e;
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.3s ease;
+      }
+
+      .cta-link:hover {
+        color: #8b4513;
+      }
+
+      .cta-tagline {
+        font-size: 2em;
+        font-weight: 800;
+        color: #d2691e;
+        margin-top: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 40px;
+        color: #8b4513;
+        font-size: 0.95em;
+      }
+
+      /* WhatsApp Float Button */
+      .whatsapp-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        text-decoration: none;
+        animation: pulse-wa 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-wa {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+        }
+        50% {
+          transform: scale(1.1);
+          box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+        }
+      }
+
+      .whatsapp-float:hover {
+        transform: scale(1.15);
+        box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+      }
+
+      .whatsapp-float svg {
+        width: 40px;
+        height: 40px;
+        fill: white;
+      }
+
+      .wa-tooltip {
+        position: absolute;
+        right: 80px;
+        background: white;
+        color: #128c7e;
+        padding: 10px 20px;
+        border-radius: 15px;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .whatsapp-float:hover .wa-tooltip {
+        opacity: 1;
+      }
+
+      /* Responsive Fixes */
+      @media (max-width: 768px) {
+        /* --- Perbaikan Why Section di HP --- */
+        .why-section {
+          padding: 40px 20px;
+        }
+
+        .why-section h2 {
+          font-size: 2em;
+          margin-bottom: 30px;
+        }
+
+        .why-grid {
+          grid-template-columns: 1fr; /* jadi 1 kolom */
+          gap: 20px;
+          max-width: 100%;
+        }
+
+        .why-item {
+          padding: 25px 20px;
+        }
+
+        .why-item h3 {
+          font-size: 1.4em;
+          margin-bottom: 12px;
+        }
+
+        .why-item p {
+          font-size: 1em;
+          line-height: 1.7;
+        }
+        .navbar {
+          padding: 8px 0;
+        }
+
+        .nav-content {
+          justify-content: center; /* ← ini kuncinya! */
+          padding: 0 20px; /* opsional: biar nggak nempel ke pinggir */
+        }
+
+        .nav-logo-img {
+          height: 60px; /* disesuaikan biar nggak kegedean */
+          width: auto;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hero-section {
+          height: 500px;
+          margin-top: 15px;
+        }
+
+        .hero-content {
+          flex-direction: column;
+          justify-content: center;
+          padding: 40px 20px;
+          text-align: center;
+        }
+
+        .hero-text {
+          margin-bottom: 30px;
+          max-width: 100%;
+        }
+
+        /* Untuk mobile, izinkan pecah baris agar tidak terpotong */
+        .hero-title {
+          font-size: 2.8em;
+          margin-bottom: 15px;
+          white-space: normal;
+        }
+
+        .hero-tagline {
+          font-size: 1.5em;
+          margin-bottom: 25px;
+        }
+
+        .hero-mascot {
+          display: none; /* Sembunyikan maskot di mobile agar lebih fokus pada teks */
+        }
+
+        /* Offset scroll untuk mobile */
+        .section-target {
+          margin-top: -70px;
+          padding-top: 80px;
+        }
+
+        /* ... (sisa CSS responsive) ... */
+      }
+
+      @media (max-width: 480px) {
+        .hero-section {
+          height: 400px;
+        }
+
+        .hero-title {
+          font-size: 2em;
+        }
+
+        .hero-tagline {
+          font-size: 1.2em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-content">
+        <a href="#hero">
+          <img
+            src="asset/dopigo_logo_final.png"
+            alt="Dopigo Logo"
+            class="nav-logo-img"
+          />
+        </a>
+        <ul class="nav-links">
+          <li><a href="#hero">Beranda</a></li>
+          <li><a href="#products-target">Menu Kami</a></li>
+          <li><a href="#why-target">Kenapa Kami?</a></li>
+          <li><a href="#contact-target">Kontak</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="hero-section" id="hero">
+        <div class="hero-slider">
+          <div class="hero-slide"></div>
+          <div class="hero-slide"></div>
+          <div class="hero-slide"></div>
+        </div>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">Coffee & Bites #1 di Kaliabang</h1>
+            <p class="hero-tagline">Affordable Treats, Premium Feels</p>
+            <a
+              href="https://wa.me/6287762101910?text=Halo%20Dopigo!%20Saya%20mau%20order%20dong"
+              class="order-button"
+              target="_blank"
+            >
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M16 0C7.164 0 0 7.164 0 16c0 2.847.753 5.52 2.073 7.833L0 32l8.333-2.073A15.936 15.936 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm8.247 22.667c-.347.973-1.72 1.787-2.813 2.027-.747.16-1.72.287-4.987-.973-4.187-1.6-6.88-5.84-7.093-6.12-.213-.28-1.733-2.307-1.733-4.4s1.093-3.12 1.48-3.547c.387-.427.84-.533 1.12-.533.28 0 .56 0 .8.013.267.013.627-.107.987.76.36.88 1.24 3.027 1.347 3.253.107.227.187.493.04.773-.147.28-.213.453-.427.707-.213.253-.453.56-.64.747-.213.213-.44.44-.187.867.253.427.933 1.533 1.987 2.493 1.347 1.24 2.493 1.627 2.84 1.813.347.187.56.16.773-.093.213-.253.92-1.067 1.173-1.44.253-.373.493-.307.827-.187.333.12 2.12 1 2.48 1.187.36.187.6.28.693.44.093.16.093.907-.253 1.787z"
+                />
+              </svg>
+              Order Sekarang via WhatsApp
+            </a>
+          </div>
+          <img src="asset/main_mascot.png" alt="Dopigo Mascot" class="hero-mascot" />
+        </div>
+      </div>
+
+      <!-- Intro Section -->
+      <div class="section-target" id="intro-target"></div>
+      <div class="intro">
+        <h2>Selamat Datang di Dopigo!</h2>
+        <p>
+          Destinasi kuliner kekinian yang siap memanjakan lidahmu dengan
+          perpaduan rasa autentik dari tiga jajanan paling hits! Kami hadir
+          untuk Gen Z yang selalu mencari pengalaman baru, rasa yang unik, dan
+          pastinya <strong>Instagramable</strong>.
+        </p>
+      </div>
+
+      <!-- Products Section -->
+      <div class="section-target" id="products-target"></div>
+      <div class="products">
+        <div class="product-card">
+          <img
+            src="asset/dopigo_mascot1.png"
+            alt="Dopigo Mascot"
+            class="mascot-product"
+          />
+          <img
+            src="asset/dorayaki_product.png"
+            alt="Dorayaki"
+            class="product-image"
+          />
+          <h3>Dorayaki</h3>
+          <p>
+            Nikmati kelembutan pancake khas Jepang yang legendaris, dengan isian
+            pasta kacang merah manis yang lumer di setiap gigitan. Dorayaki
+            Dopigo dibuat dengan resep otentik, memberikan sensasi manis yang
+            pas dan tekstur yang bikin ketagihan. Cocok banget buat teman ngopi
+            atau camilan sore!
+          </p>
+        </div>
+
+        <div class="product-card">
+          <img
+            src="asset/dopigo_mascot2.png"
+            alt="Dopigo Mascot"
+            class="mascot-product"
+          />
+          <img
+            src="asset/dalgona_coffee_product.png"
+            alt="Dalgona Coffee"
+            class="product-image"
+          />
+          <h3>Dalgona Coffee</h3>
+          <p>
+            Rasakan kesegaran Dalgona Coffee ala Dopigo! Perpaduan sempurna
+            antara kopi kocok super <em>creamy</em> di atas susu dingin yang
+            segar. Minuman viral dari Korea ini siap bikin harimu makin semangat
+            dan pastinya jadi <em>spotlight</em> di <em>feed</em> Instagram-mu.
+            Wajib coba!
+          </p>
+        </div>
+
+        <div class="product-card">
+          <img
+            src="asset/dopigo_mascot3.png"
+            alt="Dopigo Mascot"
+            class="mascot-product"
+          />
+          <img
+            src="asset/pisang_nugget_product.png"
+            alt="Pisang Nugget"
+            class="product-image"
+          />
+          <h3>Banana Nugget</h3>
+          <p>
+            Camilan favorit sejuta umat dari Indonesia kini hadir dengan
+            sentuhan Dopigo! Pisang Nugget kami dibalut tepung renyah, digoreng
+            sempurna hingga keemasan, dan disajikan dengan berbagai
+            <em>topping</em> pilihan. Kriuk di luar, lembut di dalam, manisnya
+            pas. Dijamin bikin kamu ketagihan!
+          </p>
+        </div>
+      </div>
+
+      <!-- Why Section -->
+      <div class="section-target" id="why-target"></div>
+      <div class="why-section">
+        <h2>Kenapa Harus Dopigo?</h2>
+        <div class="why-grid">
+          <div class="why-item">
+            <h3>🌏 Fusion Unik</h3>
+            <p>
+              Perpaduan rasa Jepang, Korea, dan Indonesia dalam satu tempat.
+            </p>
+          </div>
+          <div class="why-item">
+            <h3>✨ Rasa Autentik</h3>
+            <p>Kami menjaga kualitas dan keaslian resep dari setiap negara.</p>
+          </div>
+          <div class="why-item">
+            <h3>📸 Gen Z Approved</h3>
+            <p>Jajanan kekinian yang viral dan Instagramable banget!</p>
+          </div>
+          <div class="why-item">
+            <h3>💰 Harga Bersahabat</h3>
+            <p>Enak gak harus mahal! Pas di kantong pelajar dan mahasiswa.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA / Contact Section -->
+      <div class="section-target" id="contact-target"></div>
+      <div class="cta">
+        <h2>Yuk, Cobain Sensasi Dopigo Sekarang!</h2>
+        <p class="cta-info">
+          <strong>Follow kami di Instagram:</strong>
+          <a
+            href="https://instagram.com/dopigo.id"
+            class="cta-link"
+            target="_blank"
+            >@dopigo.id</a
+          >
+        </p>
+        <p class="cta-info">
+          <strong>Kunjungi kami langsung di:</strong>
+          <span style="color: #d2691e">📍 UBSI Kaliabang</span>
+        </p>
+        <a
+          href="https://wa.me/6287762101910?text=Halo%20Dopigo!%20Saya%20mau%20order%20dong"
+          class="order-button"
+          target="_blank"
+          style="margin-top: 20px"
+        >
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16 0C7.164 0 0 7.164 0 16c0 2.847.753 5.52 2.073 7.833L0 32l8.333-2.073A15.936 15.936 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm8.247 22.667c-.347.973-1.72 1.787-2.813 2.027-.747.16-1.72.287-4.987-.973-4.187-1.6-6.88-5.84-7.093-6.12-.213-.28-1.733-2.307-1.733-4.4s1.093-3.12 1.48-3.547c.387-.427.84-.533 1.12-.533.28 0 .56 0 .8.013.267.013.627-.107.987.76.36.88 1.24 3.027 1.347 3.253.107.227.187.493.04.773-.147.28-.213.453-.427.707-.213.253-.453.56-.64.747-.213.213-.44.44-.187.867.253.427.933 1.533 1.987 2.493 1.347 1.24 2.493 1.627 2.84 1.813.347.187.56.16.773-.093.213-.253.92-1.067 1.173-1.44.253-.373.493-.307.827-.187.333.12 2.12 1 2.48 1.187.36.187.6.28.693.44.093.16.093.907-.253 1.787z"
+            />
+          </svg>
+          Order via WhatsApp
+        </a>
+        <p class="cta-tagline">Coffee & Bites #1 di Kaliabang</p>
+      </div>
+
+      <div class="footer">
+        <p>
+          &copy; 2025 Dopigo. All rights reserved. | Designed with ❤️ for Gen Z
+        </p>
+      </div>
+    </div>
+
+    <a
+      href="https://wa.me/6287762101910?text=Halo%20Dopigo!%20Saya%20mau%20order%20dong"
+      class="whatsapp-float"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="wa-tooltip">Order via WhatsApp</span>
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M16 0C7.164 0 0 7.164 0 16c0 2.847.753 5.52 2.073 7.833L0 32l8.333-2.073A15.936 15.936 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm8.247 22.667c-.347.973-1.72 1.787-2.813 2.027-.747.16-1.72.287-4.987-.973-4.187-1.6-6.88-5.84-7.093-6.12-.213-.28-1.733-2.307-1.733-4.4s1.093-3.12 1.48-3.547c.387-.427.84-.533 1.12-.533.28 0 .56 0 .8.013.267.013.627-.107.987.76.36.88 1.24 3.027 1.347 3.253.107.227.187.493.04.773-.147.28-.213.453-.427.707-.213.253-.453.56-.64.747-.213.213-.44.44-.187.867.253.427.933 1.533 1.987 2.493 1.347 1.24 2.493 1.627 2.84 1.813.347.187.56.16.773-.093.213-.253.92-1.067 1.173-1.44.253-.373.493-.307.827-.187.333.12 2.12 1 2.48 1.187.36.187.6.28.693.44.093.16.093.907-.253 1.787z"
+        />
+      </svg>
+    </a>
+  </body>
+</html>
