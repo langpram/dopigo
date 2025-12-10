@@ -45,7 +45,7 @@
         height: 70px;
         margin: 0 auto;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 10px 20px;
       }
@@ -57,7 +57,7 @@
 
       .nav-links {
         list-style: none;
-        display: flex;
+        display: none;
         gap: 25px;
       }
 
@@ -117,8 +117,8 @@
         width: 100%;
         height: 100%;
         opacity: 0;
-        /* PERBAIKAN 2: Animasi Crossfade dan Zoom (Total 12s, 4s per slide) */
-        animation: crossFade 12s infinite, zoomEffect 12s infinite;
+        /* PERBAIKAN 2: Animasi Crossfade dan Zoom (Total 8s, 4s per slide) */
+        animation: crossFade 8s infinite, zoomEffect 8s infinite;
         background-size: cover;
         background-position: center;
         /* Transisi untuk memastikan fade-in/out sangat mulus */
@@ -128,41 +128,32 @@
       /* URL Gambar yang lu pakai */
       .hero-slide:nth-child(1) {
         animation-delay: 0s;
-        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero3_wcfoxl.jpg");
-      }
-
-      .hero-slide:nth-child(2) {
-        /* Dimulai -4s agar crossfade mulus */
-        animation-delay: -4s;
         background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero1_kql9xk.jpg");
       }
 
-      .hero-slide:nth-child(3) {
-        /* Dimulai -8s agar crossfade mulus */
-        animation-delay: -8s;
-        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1759737908/hero2_s4dc9a.jpg");
+      .hero-slide:nth-child(2) {
+        /* Dimulai -4s agar crossfade mulus (setengah durasi) */
+        animation-delay: -4s;
+        background-image: url("https://res.cloudinary.com/doepilwju/image/upload/v1763694446/matcha_fdvc5a.png");
       }
+
+      /* (slide ke-3 dihapus karena kini hanya 2 slide) */
 
       /* Keyframes untuk Crossfade (Smooth & No Jeda) */
       @keyframes crossFade {
+        /* Untuk 2 slide, tiap slide aktif ~3.6s, fade ~0.8s -> durasi total 8s */
         0% {
           opacity: 1;
-        } /* Penuh di awal */
-        25% {
+        }
+        45% {
           opacity: 1;
-        } /* Tahan opacity 1 selama 3 detik (25% dari 12s) */
-        33.33% {
+        } /* tampil penuh */
+        55% {
           opacity: 0;
-        } /* Fade out 1s */
-        66.66% {
-          opacity: 0;
-        } /* Tahan opacity 0 selama 4 detik */
-        75% {
-          opacity: 0;
-        } /* Fade in 1s */
+        } /* fade out */
         100% {
-          opacity: 1;
-        } /* Penuh di akhir, siap looping */
+          opacity: 0;
+        } /* tetap tersembunyi sampai loop */
       }
 
       /* Keyframes untuk Zoom (Ken Burns Effect) */
@@ -171,7 +162,7 @@
           transform: scale(1);
         }
         50% {
-          transform: scale(1.1);
+          transform: scale(1.08);
         }
         100% {
           transform: scale(1);
@@ -221,7 +212,6 @@
           transform: translateX(0);
         }
       }
-
       /* PERBAIKAN 3: Title 1 Line */
       .hero-title {
         font-size: 4em;
@@ -230,8 +220,9 @@
         margin-bottom: 20px;
         text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
         line-height: 1.1;
-        white-space: nowrap; /* WAJIB: Mencegah pemisahan baris */
-        overflow: hidden;
+        /* white-space: nowrap;  WAJIB: Mencegah pemisahan baris */
+        /* overflow: hidden; */
+        white-space: normal;
       }
 
       .hero-tagline {
@@ -602,6 +593,55 @@
 
       /* Responsive Fixes */
       @media (max-width: 768px) {
+        /* --- Perbaikan Products Grid di HP --- */
+        .products {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+          margin-bottom: 40px;
+        }
+
+        .product-card {
+          padding: 25px 15px;
+          border-radius: 20px;
+        }
+
+        .product-image {
+          height: 200px;
+          margin-bottom: 15px;
+          border-radius: 15px;
+        }
+
+        .product-card h3 {
+          font-size: 1.4em;
+          margin-bottom: 10px;
+        }
+
+        .product-card p {
+          font-size: 0.95em;
+          line-height: 1.6;
+          display: none;
+        }
+
+        .mascot-product {
+          width: 60px;
+          height: 60px;
+        }
+
+        /* --- Perbaikan Intro Section di HP --- */
+        .intro h2 {
+          font-size: 1.8em;
+          margin-bottom: 15px;
+          max-width: 280px;
+          margin-left: auto;
+          margin-right: auto;
+          line-height: 1.3;
+        }
+
+        .intro p {
+          font-size: 1em;
+          line-height: 1.6;
+        }
+
         /* --- Perbaikan Why Section di HP --- */
         .why-section {
           padding: 40px 20px;
@@ -728,14 +768,13 @@
         <div class="hero-slider">
           <div class="hero-slide"></div>
           <div class="hero-slide"></div>
-          <div class="hero-slide"></div>
         </div>
 
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
           <div class="hero-text">
-            <h1 class="hero-title">Coffee & Bites #1 di Kaliabang</h1>
+            <h5 class="hero-title">Coffee & Matcha <br />#1 di Bekasi</h5>
             <p class="hero-tagline">Affordable Treats, Premium Feels</p>
             <a
               href="https://wa.me/6287762101910?text=Halo%20Dopigo!%20Saya%20mau%20order%20dong"
@@ -750,7 +789,7 @@
               Order Sekarang via WhatsApp
             </a>
           </div>
-          <img src="asset/main_mascot.png" alt="Dopigo Mascot" class="hero-mascot" />
+          <img src="asset/final.png" alt="Dopigo Mascot" class="hero-mascot" />
         </div>
       </div>
 
@@ -769,27 +808,7 @@
       <!-- Products Section -->
       <div class="section-target" id="products-target"></div>
       <div class="products">
-        <div class="product-card">
-          <img
-            src="asset/dopigo_mascot1.png"
-            alt="Dopigo Mascot"
-            class="mascot-product"
-          />
-          <img
-            src="asset/dorayaki_product.png"
-            alt="Dorayaki"
-            class="product-image"
-          />
-          <h3>Dorayaki</h3>
-          <p>
-            Nikmati kelembutan pancake khas Jepang yang legendaris, dengan isian
-            pasta kacang merah manis yang lumer di setiap gigitan. Dorayaki
-            Dopigo dibuat dengan resep otentik, memberikan sensasi manis yang
-            pas dan tekstur yang bikin ketagihan. Cocok banget buat teman ngopi
-            atau camilan sore!
-          </p>
-        </div>
-
+        <!-- Dalgona Coffee (existing) -->
         <div class="product-card">
           <img
             src="asset/dopigo_mascot2.png"
@@ -811,24 +830,24 @@
           </p>
         </div>
 
+        <!-- NEW: Dalgona Matcha -->
         <div class="product-card">
           <img
-            src="asset/dopigo_mascot3.png"
+            src="asset/matchaaa.png"
             alt="Dopigo Mascot"
             class="mascot-product"
           />
           <img
-            src="asset/pisang_nugget_product.png"
-            alt="Pisang Nugget"
+            src="asset/dalgona_matcha.png"
+            alt="Dalgona Matcha"
             class="product-image"
           />
-          <h3>Banana Nugget</h3>
+          <h3>Dalgona Matcha</h3>
           <p>
-            Camilan favorit sejuta umat dari Indonesia kini hadir dengan
-            sentuhan Dopigo! Pisang Nugget kami dibalut tepung renyah, digoreng
-            sempurna hingga keemasan, dan disajikan dengan berbagai
-            <em>topping</em> pilihan. Kriuk di luar, lembut di dalam, manisnya
-            pas. Dijamin bikin kamu ketagihan!
+            Varian terbaru: Dalgona Matcha — lapisan matcha kocok lembut di atas
+            susu pilihan. Perpaduan rasa pahit halus matcha dengan tekstur
+            creamy yang lembut membuat minuman ini elegan dan menyegarkan. Cocok
+            untuk pencinta teh dan pencari rasa baru!
           </p>
         </div>
       </div>
@@ -893,9 +912,7 @@
       </div>
 
       <div class="footer">
-        <p>
-          &copy; 2025 Dopigo. All rights reserved. | Designed with ❤️ for Gen Z
-        </p>
+        <p>&copy; 2025 Dopigo. All rights reserved.</p>
       </div>
     </div>
 
